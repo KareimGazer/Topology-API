@@ -4,5 +4,6 @@ public class Main {
         String fileName = "src/main/java/topology.json";
         API api = new API();
         api.readJSON(fileName);
+        api.queyDeviceWithNetlistNode("top1", "vss");
     }
 }

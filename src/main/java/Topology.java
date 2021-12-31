@@ -88,7 +88,34 @@ public class Topology{
     }
     public void addDevice(Device dev){
         devicesList.add(dev);
+        if(dev.getType().equals("resistor")){
+            Resistor res = (Resistor) dev;
+            addToNetList(res.getT1(), res.getId());
+            addToNetList(res.getT2(), res.getId());
+        }
+        else if(dev.getType().equals("nmos")){
+            NMOS res = (NMOS) dev;
+            addToNetList(res.getDrain(), res.getId());
+            addToNetList(res.getGate(), res.getId());
+            addToNetList(res.getSource(), res.getId());
+        }
+        // System.out.println("+1");
     }
+
+    public synchronized void addToNetList(String mapKey, String newDev) {
+        ArrayList<String> devList = netlist.get(mapKey);
+
+        // if list does not exist create it
+        if(devList == null) {
+            devList = new ArrayList<String>();
+            devList.add(newDev);
+            netlist.put(mapKey, devList);
+        } else {
+            // add if item is not already in list
+            if(!devList.contains(newDev)) devList.add(newDev);
+        }
+    }
+
     public void removeDevice(String id){
       for(int i=0; i<devicesList.size();i++){
         if(devicesList.get(i).getId().equals(id)){
@@ -106,5 +133,8 @@ public class Topology{
     }
     public ArrayList<Device> getDevices(){
         return devicesList;
+    }
+    public ArrayList<String> getNetlistDevices(String netlistName){
+        return netlist.get(netlistName);
     }
 }

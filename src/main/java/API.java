@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 public class API {
     ArrayList<Topology> topologies = new ArrayList<Topology>();
@@ -12,41 +13,62 @@ public class API {
         Topology top = new Topology("");
         top.buildFromJson(fileName);
         topologies.add(top);
-        Device dev = top.getDevice("m1");
-        dev.printDevice();
+        // Device dev = top.getDevice("m1");
+        // dev.printDevice();
         return 0;
     }
 
-    public int writeJson(String id){
+    int getTopIdx(String topologyId){
         for(int i=0; i<topologies.size();i++){
-            if(topologies.get(i).getId().equals(id)){
-                topologies.get(i).writeJson();
-                return 0;
+            if(topologies.get(i).getId().equals(topologyId)){
+                return i;
             }
         }
         return -1;
+    }
+
+    public int writeJson(String topologyId){
+        int idx = getTopIdx(topologyId);
+        if(getTopIdx(topologyId) != -1){
+            topologies.get(idx).writeJson();
+            return 0;
+        }
+        else return -1;
     }
 
     ArrayList<Topology> queryTopologies(){
         return topologies;
     }
 
-    public int deleteTopology(String id){
-        for(int i=0; i<topologies.size();i++){
-            if(topologies.get(i).getId().equals(id)){
-                topologies.remove(i);
-                return 0;
-            }
+    public int deleteTopology(String topologyId){
+        int idx = getTopIdx(topologyId);
+        if(getTopIdx(topologyId) != -1){
+            topologies.remove(idx);
+            return 0;
         }
-        return -1;
+        else return -1;
     }
 
-    public ArrayList<Device> queryDevices(String id){
-        for(int i=0; i<topologies.size();i++){
-            if(topologies.get(i).getId().equals(id)){
-                return topologies.get(i).getDevices();
-            }
+    public ArrayList<Device> queryDevices(String topologyId){
+        int idx = getTopIdx(topologyId);
+        if(getTopIdx(topologyId) != -1){
+            return topologies.get(idx).getDevices();
         }
-        return null;
+        else return null;
+    }
+
+    ArrayList<Device> queyDeviceWithNetlistNode(String topologyId, String netlistNodeId){
+        Topology topology = null;
+        int idx = getTopIdx(topologyId);
+        if(getTopIdx(topologyId) != -1){
+            topology =  topologies.get(idx);
+            for(String s: topology.getNetlistDevices(netlistNodeId)){
+                ArrayList<Device> devs = new ArrayList<Device>();
+                devs.add(topology.getDevice(s));
+                // System.out.println(s);
+            }
+            return null;
+        }
+        else return null;
     }
 }
