@@ -62,12 +62,12 @@ public class API {
         int idx = getTopIdx(topologyId);
         if(getTopIdx(topologyId) != -1){
             topology =  topologies.get(idx);
+            ArrayList<Device> devs = new ArrayList<Device>();
             for(String s: topology.getNetlistDevices(netlistNodeId)){
-                ArrayList<Device> devs = new ArrayList<Device>();
                 devs.add(topology.getDevice(s));
                 // System.out.println(s);
             }
-            return null;
+            return devs;
         }
         else return null;
     }
