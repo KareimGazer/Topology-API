@@ -1,4 +1,6 @@
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class Resistor extends Device{
     String t1;
@@ -30,6 +32,28 @@ public class Resistor extends Device{
         setSpecifications(s);
         setType(type); setId(id); setT1(T1); setT2(T2);
 
+    }
+
+    public JSONObject getJsonObject(){
+        JSONObject mainObj = new JSONObject();
+        mainObj.put("type", getType());
+        mainObj.put("id", getId());
+
+        JSONObject res = new JSONObject();
+        Specs s = getSpecifications();
+        res.put("default", s.getDefVal());
+        res.put("min", s.getMin());
+        res.put("max", s.getMax());
+
+        mainObj.put("resistance", res);
+
+        JSONObject netlist = new JSONObject();
+        netlist.put("t1", getT1());
+        netlist.put("t2", getT2());
+
+        mainObj.put("netlist", netlist);
+
+        return mainObj;
     }
 
     public void setT1(String t1) {

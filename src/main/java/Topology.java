@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.FileNotFoundException;
@@ -13,6 +14,7 @@ public class Topology{
     private String id;
     private ArrayList<Device> devicesList;
     private HashMap<String, ArrayList<String>> netlist;
+    private static FileWriter file;
 
     public Topology(String ID){
         id = ID;
@@ -50,6 +52,32 @@ public class Topology{
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void writeJson(){
+        JSONObject topObj = new JSONObject();
+        topObj.put("id", getId());
+
+        JSONArray components = new JSONArray();
+        for(Device dev: devicesList){
+            components.add(dev.getJsonObject());
+        }
+        topObj.put("components", components);
+
+        try {
+            file = new FileWriter(getId());
+            file.write(topObj.toJSONString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                file.flush();
+                file.close();
+            } catch (IOException e) {
+            }
         }
     }
     public String getId(){

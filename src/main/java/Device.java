@@ -13,6 +13,9 @@ public abstract class Device{
     public void buildFromJson(JSONObject jsonObject){
 
     }
+    public JSONObject getJsonObject(){
+        return null;
+    }
     public void printDevice(){
 
     }

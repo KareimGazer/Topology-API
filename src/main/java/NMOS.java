@@ -34,6 +34,29 @@ public class NMOS extends Device{
 
     }
 
+    public JSONObject getJsonObject(){
+        JSONObject mainObj = new JSONObject();
+        mainObj.put("type", getType());
+        mainObj.put("id", getId());
+
+        JSONObject ml1 = new JSONObject();
+        Specs s = getSpecifications();
+        ml1.put("default", s.getDefVal());
+        ml1.put("min", s.getMin());
+        ml1.put("max", s.getMax());
+
+        mainObj.put("m(l)", ml1);
+
+        JSONObject netlist = new JSONObject();
+        netlist.put("drain", getDrain());
+        netlist.put("gate", getGate());
+        netlist.put("source", getSource());
+
+        mainObj.put("netlist", netlist);
+
+        return mainObj;
+    }
+
     public void printDevice(){
         System.out.println("type: "+getType());
         System.out.println("id: "+getId());
