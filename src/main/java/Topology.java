@@ -1,5 +1,12 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 // devices will be added one by one no set devices
 public class Topology{
@@ -11,6 +18,39 @@ public class Topology{
         id = ID;
         devicesList = new ArrayList<Device>();
         netlist = new HashMap<String, ArrayList<String>>();
+    }
+    public void buildFromJson(String filePath){
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(new FileReader(filePath));
+            JSONObject jsonObject =  (JSONObject) obj;
+
+            String name = (String) jsonObject.get("id");
+            id = name;
+            // loop array
+            JSONArray components = (JSONArray) jsonObject.get("components");
+            for (int i=0; i< components.size(); i++)
+            {
+                JSONObject jsonObject1 = (JSONObject) components.get(i);
+                if(jsonObject1.get("type").equals("resistor")){
+                    Resistor resistor = new Resistor();
+                    resistor.buildFromJson(jsonObject1);
+                    addDevice(resistor);
+                }
+                else if(jsonObject1.get("type").equals("nmos")){
+                    NMOS nmos = new NMOS();
+                    nmos.buildFromJson(jsonObject1);
+                    addDevice(nmos);
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
     public String getId(){
         return id;

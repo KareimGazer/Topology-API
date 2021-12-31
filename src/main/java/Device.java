@@ -1,3 +1,5 @@
+import org.json.simple.JSONObject;
+
 public abstract class Device{
     private String type;
     private String id;
@@ -7,6 +9,12 @@ public abstract class Device{
         type = t;
         id = ID;
         specifications = new Specs(defVal, min, max);
+    }
+    public void buildFromJson(JSONObject jsonObject){
+
+    }
+    public void printDevice(){
+
     }
     public void setType(String t){
         type = t;

@@ -1,5 +1,8 @@
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        String fileName = "src/main/java/topology.json";
+        API api = new API();
+        api.readJSON(fileName);
     }
 }
