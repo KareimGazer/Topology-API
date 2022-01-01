@@ -9,18 +9,31 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-// devices will be added one by one no set devices
+/*
+    class Topology: represents the topology in memory
+    contains: - it own id
+              - list of connected devices
+              - netList all devices contained
+              - file for writing to json file
+ */
 public class Topology{
     private String id;
     private ArrayList<Device> devicesList;
     private HashMap<String, ArrayList<String>> netlist;
     private static FileWriter file;
 
+    // constructor
     public Topology(String ID){
         id = ID;
         devicesList = new ArrayList<Device>();
         netlist = new HashMap<String, ArrayList<String>>();
     }
+
+    /*
+        reads the json file and transfer the info into topology class and hence to memory.
+        input: filePath (String), the string specifying the file location.
+        output: void.
+     */
     public void buildFromJson(String filePath){
         JSONParser parser = new JSONParser();
         try {
@@ -55,6 +68,11 @@ public class Topology{
         }
     }
 
+    /*
+       writes the topology to a json file, the file name is the topology id
+        input: void.
+        output: void.
+     */
     public void writeJson(){
         JSONObject topObj = new JSONObject();
         topObj.put("id", getId());
@@ -80,12 +98,20 @@ public class Topology{
             }
         }
     }
+
     public String getId(){
         return id;
     }
+
     public void setId(String ID){
         id = ID;
     }
+
+    /*
+       adds a device to the topology.
+        input: dev (Device).
+        output: void.
+     */
     public void addDevice(Device dev){
         devicesList.add(dev);
         if(dev.getType().equals("resistor")){
@@ -102,6 +128,11 @@ public class Topology{
         // System.out.println("+1");
     }
 
+    /*
+       helper function used to modify the netlist hashmap
+        input: mapKey (String), newDev String.
+        output: void.
+     */
     public synchronized void addToNetList(String mapKey, String newDev) {
         ArrayList<String> devList = netlist.get(mapKey);
 
@@ -116,6 +147,11 @@ public class Topology{
         }
     }
 
+    /*
+       removes the device with the specified id.
+        input: id (String).
+        output: void.
+     */
     public void removeDevice(String id){
       for(int i=0; i<devicesList.size();i++){
         if(devicesList.get(i).getId().equals(id)){
@@ -123,6 +159,12 @@ public class Topology{
         }
       }
     }
+
+    /*
+       returns the device with the specified id.
+        input: id (String).
+        output: Device.
+     */
     public Device getDevice(String id){
         for(Device dev : devicesList){
             if(dev.getId().equals(id)){
@@ -131,9 +173,21 @@ public class Topology{
         }
         return null;
     }
+
+    /*
+       returns a list of all devices in the topology.
+        input: void.
+        output: list of devices.
+     */
     public ArrayList<Device> getDevices(){
         return devicesList;
     }
+
+    /*
+       returns a list of all devices connected to a given netlist node
+        input: netlistName (String), the id of the netlist.
+        output: list of Strings of devices ids.
+     */
     public ArrayList<String> getNetlistDevices(String netlistName){
         return netlist.get(netlistName);
     }

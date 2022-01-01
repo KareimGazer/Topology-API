@@ -1,5 +1,9 @@
+/*
+ class Specs: represents the specs and extreme values that the device can have
+ */
+
 public class Specs{
-    private double defVal; // default value
+    private double defVal; // default value, in case no assigned
     private double min; // minimum value
     private double max; // maximum value
 
@@ -10,7 +14,8 @@ public class Specs{
         max = high;
     }
 
-    // defVal setter
+    // normal setters and getters
+
     public void setDefVal(double defVal) {
         this.defVal = defVal;
     }
@@ -19,7 +24,6 @@ public class Specs{
         return defVal;
     }
 
-    // max setter
     public void setMax(double max) {
         this.max = max;
     }
@@ -28,7 +32,6 @@ public class Specs{
         return max;
     }
 
-    // min setter
     public void setMin(double min) {
         this.min = min;
     }

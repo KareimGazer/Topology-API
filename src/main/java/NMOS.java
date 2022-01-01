@@ -14,6 +14,7 @@ public class NMOS extends Device{
         drain = d; gate = g; source = s;
     }
 
+    // description can be found in the parent class "Device"
     public void buildFromJson(JSONObject jsonObject){
         String type = (String) jsonObject.get("type");
         String id = (String) jsonObject.get("id");
@@ -34,6 +35,7 @@ public class NMOS extends Device{
 
     }
 
+    // description can be found in the parent class "Device"
     public JSONObject getJsonObject(){
         JSONObject mainObj = new JSONObject();
         mainObj.put("type", getType());
@@ -57,6 +59,7 @@ public class NMOS extends Device{
         return mainObj;
     }
 
+    // printing NMOS info for debugging purposes
     public void printDevice(){
         System.out.println("type: "+getType());
         System.out.println("id: "+getId());
@@ -70,6 +73,8 @@ public class NMOS extends Device{
         System.out.println("gate: "+getGate());
         System.out.println("source: "+getSource());
     }
+
+    // normal setters and getters
 
     public void setDrain(String drain) {
         this.drain = drain;

@@ -1,5 +1,8 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
+    Main API tests
+ */
 class APITest {
 
     @org.junit.jupiter.api.Test

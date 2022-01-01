@@ -15,6 +15,8 @@ public class Resistor extends Device{
         super(t, ID, defVal, min, max);
         t1 = T1; t2 = T2;
     }
+
+    // description can be found in the parent class "Device"
     public void buildFromJson(JSONObject jsonObject){
         String type = (String) jsonObject.get("type");
         String id = (String) jsonObject.get("id");
@@ -34,6 +36,7 @@ public class Resistor extends Device{
 
     }
 
+    // description can be found in the parent class "Device"
     public JSONObject getJsonObject(){
         JSONObject mainObj = new JSONObject();
         mainObj.put("type", getType());
@@ -56,6 +59,8 @@ public class Resistor extends Device{
         return mainObj;
     }
 
+    // setters and getters
+
     public void setT1(String t1) {
         this.t1 = t1;
     }
@@ -72,6 +77,8 @@ public class Resistor extends Device{
         return t2;
     }
 
+    // printing resistor info for debugging purposes
+    // description can be found in the parent class "Device"
     public void printDevice(){
         System.out.println("type: "+getType());
         System.out.println("id: "+getId());
